@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 
-class AddTaskScreen extends StatelessWidget {
+class AddTaskScreen extends StatefulWidget {
+  final Function(String) addTask;
+
+  AddTaskScreen(this.addTask);
+
+  @override
+  _AddTaskScreenState createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  String userInput = '';
+
+  void onTyping(String input) {
+    userInput = input;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,6 +41,7 @@ class AddTaskScreen extends StatelessWidget {
               ),
             ),
             TextField(
+              onChanged: onTyping,
               autofocus: true,
               textAlign: TextAlign.center,
             ),
@@ -34,7 +50,9 @@ class AddTaskScreen extends StatelessWidget {
               style: TextButton.styleFrom(
                 backgroundColor: Colors.lightBlueAccent,
               ),
-              onPressed: () {},
+              onPressed: () {
+                widget.addTask(userInput);
+              },
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Text(

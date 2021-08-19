@@ -1,46 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:todoey_flutter/screens/edit_task.dart';
 
-class TaskTile extends StatefulWidget {
-  @override
-  _TaskTileState createState() => _TaskTileState();
-}
+class TaskTile extends StatelessWidget {
+  final bool? isChecked;
+  final String taskTitle;
+  final Function(bool?) checkboxCallback;
+  final Function(int) deleteTask;
+  final Function(int, String) editTask;
+  final int index;
 
-class _TaskTileState extends State<TaskTile> {
-  bool isChecked = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        'This is a task',
-        style: TextStyle(
-            decoration: isChecked ? TextDecoration.lineThrough : null),
-      ),
-      trailing: TaskCheckbox(
-        checkBoxState: isChecked,
-        toggleCheckboxState: (checkboxState) {
-          setState(() {
-            isChecked = checkboxState!;
-          });
-        },
-      ),
-    );
-  }
-}
-
-class TaskCheckbox extends StatelessWidget {
-  final bool checkBoxState;
-  final Function(bool?) toggleCheckboxState;
-
-  TaskCheckbox(
-      {required this.checkBoxState, required this.toggleCheckboxState});
+  TaskTile({
+    required this.isChecked,
+    required this.taskTitle,
+    required this.checkboxCallback,
+    required this.deleteTask,
+    required this.editTask,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Checkbox(
-      activeColor: Colors.lightBlueAccent,
-      value: checkBoxState,
-      onChanged: toggleCheckboxState,
+    return Column(
+      children: [
+        ListTile(
+          title: Text(
+            taskTitle,
+            style: TextStyle(
+                decoration:
+                    isChecked ?? false ? TextDecoration.lineThrough : null),
+          ),
+          trailing: Checkbox(
+            activeColor: Colors.lightBlueAccent,
+            value: isChecked,
+            onChanged: checkboxCallback,
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            deleteTask(index);
+          },
+          icon: Icon(Icons.delete),
+        ),
+        IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => EditTask(taskTitle, index, editTask),
+            );
+          },
+          icon: Icon(Icons.edit),
+        ),
+      ],
     );
   }
 }
