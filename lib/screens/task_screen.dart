@@ -1,45 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todoey_flutter/models/task.dart';
+import 'package:todoey_flutter/models/task_data.dart';
 import 'package:todoey_flutter/widgets/tasks_list.dart';
+
 import 'add_task_screen.dart';
 
-class TasksScreen extends StatefulWidget {
-  @override
-  _TasksScreenState createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-  Task? task;
-
-  List<Task> tasks = [
-    Task(name: 'Köp glass'),
-  ];
-
-  void _toggleTask(int index) {
-    setState(() {
-      tasks[index].toogleDone();
-    });
-  }
-
-  void _addTask(String input) {
-    setState(() {
-      tasks.add(Task(name: input));
-      Navigator.pop(context);
-    });
-  }
-
-  void _deleteTask(int index) {
-    setState(() {
-      tasks.removeAt(index);
-    });
-  }
-
-  void _editTask(int index, String newName) {
-    setState(() {
-      tasks[index].name = newName;
-    });
-  }
-
+class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +20,11 @@ class _TasksScreenState extends State<TasksScreen> {
               child: Container(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: AddTaskScreen(_addTask),
+                child: AddTaskScreen(
+                  (String newTaskTitle) {
+                    Task(name: newTaskTitle);
+                  },
+                ),
               ),
             ),
           );
@@ -89,7 +60,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  '${tasks.length} Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -109,11 +80,11 @@ class _TasksScreenState extends State<TasksScreen> {
                 ),
               ),
               child: TasksList(
-                tasks,
-                _toggleTask,
-                _deleteTask,
-                _editTask,
-              ),
+
+                  /* _toggleTask,
+                 _deleteTask,
+                _editTask, */
+                  ),
             ),
           ),
         ],

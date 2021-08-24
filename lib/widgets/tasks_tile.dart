@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:todoey_flutter/screens/edit_task.dart';
 
 class TaskTile extends StatelessWidget {
   final bool? isChecked;
   final String taskTitle;
   final Function(bool?) checkboxCallback;
-  final Function(int) deleteTask;
-  final Function(int, String) editTask;
-  final int index;
+  //final Function(int) deleteTask;
+  //final Function(int, String) editTask;
+  //final int index;
 
   TaskTile({
     required this.isChecked,
     required this.taskTitle,
     required this.checkboxCallback,
-    required this.deleteTask,
-    required this.editTask,
-    required this.index,
+    //required this.deleteTask,
+    //required this.editTask,
+    //required this.index,
   });
 
   @override
@@ -35,7 +34,7 @@ class TaskTile extends StatelessWidget {
             onChanged: checkboxCallback,
           ),
         ),
-        IconButton(
+        /* IconButton(
           onPressed: () {
             deleteTask(index);
           },
@@ -49,7 +48,7 @@ class TaskTile extends StatelessWidget {
             );
           },
           icon: Icon(Icons.edit),
-        ),
+        ), */
       ],
     );
   }
