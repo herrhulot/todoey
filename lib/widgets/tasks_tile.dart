@@ -4,7 +4,7 @@ class TaskTile extends StatelessWidget {
   final bool? isChecked;
   final String taskTitle;
   final Function(bool?) checkboxCallback;
-  //final Function(int) deleteTask;
+  final Function(bool?) deleteTask;
   //final Function(int, String) editTask;
   //final int index;
 
@@ -12,7 +12,7 @@ class TaskTile extends StatelessWidget {
     required this.isChecked,
     required this.taskTitle,
     required this.checkboxCallback,
-    //required this.deleteTask,
+    required this.deleteTask,
     //required this.editTask,
     //required this.index,
   });
@@ -22,6 +22,7 @@ class TaskTile extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          onLongPress: () => deleteTask(true),
           title: Text(
             taskTitle,
             style: TextStyle(
